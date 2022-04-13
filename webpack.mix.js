@@ -26,6 +26,7 @@ mix.sass('resources/scss/app.scss', 'public/css');
 
 mix.browserSync({
     proxy: 'http://127.0.0.1:8000/',
+    open: false,
 });
 
 if (mix.inProduction()) {
