@@ -26,7 +26,7 @@ class Register extends FormRequest
     {
         return [
             'nome' => 'required|string|min:4',
-            'email' => 'required|string|email',
+            'email' => 'required|string|email|unique:customers',
             'cpf' => [ new CpfRule ],
             'cep' => [ new CepRule ],
             'uf' => 'required|string|min:2|max:2',
