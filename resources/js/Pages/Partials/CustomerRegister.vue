@@ -1,23 +1,70 @@
 <script setup>
+import { computed } from 'vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { mask as vMask } from 'vue-the-mask';
 import InputCEP from '@/Components/InputCEP';
+import Input from '@/Components/Input';
+import 'bootstrap/js/dist/alert'
 
 const mask = { vMask }
 
 const form = useForm({
-    name: '',
+    nome: '',
     email: '',
     cpf: '',
     cep: '',
     uf: '',
-    city: '',
-    district: '',
-    street: ''
+    localidade: '',
+    bairro: '',
+    logradouro: '',
+    complemento: '',
 });
 
-const fetchCep = (res) => {
-    console.log(res)
+const clearCep = () => {
+    form.uf = ''
+    form.localidade = ''
+    form.bairro = ''
+    form.logradouro = ''
+}
+
+const fetchCep = (data) => {
+
+    for(const field in data) {
+        const fieldVal = data[field]
+
+        if(field == 'uf' || field == 'localidade' || field == 'bairro' || field == 'logradouro')
+            form[field] = fieldVal
+    }
+}
+
+const clientSideValidationIsOk = computed(() => {
+
+    function hasLength(field) {
+        return field.length ? true : false
+    }
+
+    // all rules should be return boolean value
+    const rules = [ 
+        hasLength(form.nome),
+        hasLength(form.email),
+        hasLength(form.cpf),
+        /\S+@\S+\.\S+/.test(form.email),
+        /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/.test(form.cpf),
+        /\d{5}\-\d{3}/.test(form.cep),
+        hasLength(form.cep),
+        hasLength(form.uf),
+        hasLength(form.localidade),
+        hasLength(form.bairro),
+        hasLength(form.logradouro),
+        hasLength(form.complemento),
+    ]
+
+    return rules.every(el => el)
+})  
+
+const submit = () => {
+    form.clearErrors()
+    form.post(route('customers.register'))
 }
 
 </script>
@@ -26,65 +73,120 @@ const fetchCep = (res) => {
     <div>
         <div class="container">
             <h3 class="text-center">Bem vindo, complete o formulário para cadastrar-se</h3>
-            
-            <div class="mt-5">
-                <h5>Informações pessoais</h5>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row row-cols-1 row-cols-xl-3 g-3">
-                            <div class="col">
-                                <label class="form-label">Nome</label>
-                                <input type="text" class="form-control" placeholder="Nome completo">
-                            </div>
-                            <div class="col">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" placeholder="nome@example.com">
-                            </div>
-                            <div class="col">
-                                <label class="form-label">CPF</label>
-                                <input type="text" class="form-control" placeholder="000-000-000-00" v-mask="`###-###-###-##`">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="alert alert-info alert-dismissible fade show mt-5" role="alert">
+                Todos os campos <strong>são obrigatórios</strong> para concluir o cadastro
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-
-            <div class="mt-4">
-                <h5>Informações de endereço</h5>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row row-cols-1 g-3">
-                            <div class="col">
-                                <InputCEP v-model="form.cep" @fetchCep="fetchCep"/>
-                            </div>
-                            <div class="col col-lg-6">
-                                <label class="form-label">Estado/UF</label>
-                                <input type="text" class="form-control" placeholder="Verifique o CEP" disabled>
-                            </div>
-                            <div class="col col-lg-6">
-                                <label class="form-label">Cidade</label>
-                                <input type="text" class="form-control" placeholder="Verifique o CEP" disabled>
-                            </div>
-                            <div class="col col-lg-6">
-                                <label class="form-label">Bairro</label>
-                                <input type="text" class="form-control" placeholder="Verifique o CEP" disabled>
-                            </div>
-                            <div class="col col-lg-6">
-                                <label class="form-label">Rua</label>
-                                <input type="text" class="form-control" placeholder="Verifique o CEP" disabled>
-                            </div>
-                            <div class="col">
-                                <label class="form-label">Complemento</label>
-                                
-                                <div class="input-group">
-                                    <span class="input-group-text">Nº</span>
-                                    <input type="text" class="form-control" placeholder="Digite o complemento, ex: número da casa, apt, bloco">
+            
+            <form @submit.prevent="submit">
+                <div class="mt-4">
+                    <h5>Informações pessoais</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row row-cols-1 row-cols-xl-3 g-3">
+                                <div class="col">
+                                   <Input 
+                                        v-model="form.nome" 
+                                        label="Nome" 
+                                        placeholder="Nome Completo"
+                                        :invalidFeedback="form.errors.nome"
+                                    />
+                                </div>
+                                <div class="col">
+                                    <Input 
+                                        v-model="form.email" 
+                                        label="Email" 
+                                        placeholder="nome@example.com"
+                                        :invalidFeedback="form.errors.email"
+                                        type="email"
+                                    />
+                                </div>
+                                <div class="col">
+                                    <Input
+                                        v-model="form.cpf" 
+                                        label="CPF" 
+                                        placeholder="000.000.000-00"
+                                        :invalidFeedback="form.errors.cpf"
+                                        v-mask="`###.###.###-##`"
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="mt-4">
+                    <h5>Informações de endereço</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row row-cols-1 g-3">
+                                <div class="col">
+                                    <InputCEP 
+                                        v-model="form.cep" 
+                                        @fetchCep="fetchCep" 
+                                        @clearCep="clearCep" 
+                                        :invalidFeedback="form.errors.cep"
+                                    />
+                                </div>
+                                <div class="col col-lg-6">
+                                    <Input 
+                                        v-model="form.uf" 
+                                        label="Estado/UF" 
+                                        placeholder="Verifique o CEP"
+                                        :invalidFeedback="form.errors.uf"
+                                        disabled
+                                    />
+                                </div>
+                                <div class="col col-lg-6">
+                                    <Input 
+                                        v-model="form.localidade" 
+                                        label="Cidade" 
+                                        placeholder="Verifique o CEP"
+                                        :invalidFeedback="form.errors.localidade"
+                                        disabled
+                                    />
+                                </div>
+                                <div class="col col-lg-6">
+                                    <Input
+                                        v-model="form.bairro" 
+                                        label="Bairro" 
+                                        placeholder="Verifique o CEP"
+                                        :invalidFeedback="form.errors.bairro"
+                                        disabled
+                                    />
+                                </div>
+                                <div class="col col-lg-6">
+                                    <Input
+                                        v-model="form.logradouro" 
+                                        label="Rua" 
+                                        placeholder="Verifique o CEP"
+                                        :invalidFeedback="form.errors.logradouro"
+                                        disabled
+                                    />
+                                </div>
+                                <div class="col">
+                                    <Input
+                                        label="Complemento"
+                                        v-model="form.complemento"
+                                        placeholder="Digite o complemento, ex: número da casa, apt, bloco"
+                                        :invalidFeedback="form.errors.complemento"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <button type="submit" class="btn btn-success btn-lg" :disabled="!clientSideValidationIsOk || form.processing">
+                        Concluir cadastro
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </template>
+
+<style lang="scss">
+@import "bootstrap/scss/alert";
+</style>
