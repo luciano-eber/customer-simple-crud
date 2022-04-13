@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\CustomerRegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::get('/', function () {
         'appName' => env('APP_NAME')
     ]);
 });
+
+Route::post('customers/register', [ CustomerRegisterController::class, 'handle' ])->name('customers.register');
 
 Route::middleware([
     'auth:sanctum',
