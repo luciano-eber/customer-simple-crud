@@ -4,6 +4,8 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import { mask as vMask } from 'vue-the-mask';
 import InputCEP from '@/Components/InputCEP';
 import Input from '@/Components/Input';
+import Toast from '@/Components/Toast';
+import Alert from '@/Components/Alert';
 import 'bootstrap/js/dist/alert'
 
 const mask = { vMask }
@@ -64,7 +66,10 @@ const clientSideValidationIsOk = computed(() => {
 
 const submit = () => {
     form.clearErrors()
-    form.post(route('customers.register'))
+    form.post(route('customers.register'), {
+        onSuccess: () => form.reset(),
+    })
+    
 }
 
 </script>
@@ -72,11 +77,11 @@ const submit = () => {
 <template>
     <div>
         <div class="container">
-            <h3 class="text-center">Bem vindo, complete o formulário para cadastrar-se</h3>
-            <div class="alert alert-info alert-dismissible fade show mt-5" role="alert">
+            <h3 class="text-center mb-4">Bem vindo, complete o formulário para cadastrar-se</h3>
+
+            <Alert variant="info">
                 Todos os campos <strong>são obrigatórios</strong> para concluir o cadastro
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+            </Alert>
             
             <form @submit.prevent="submit">
                 <div class="mt-4">
@@ -183,7 +188,11 @@ const submit = () => {
                     </button>
                 </div>
             </form>
+
         </div>
+        <Toast :show="form.wasSuccessful" variant="success">
+            Cadastro concluído com sucesso
+        </Toast>
     </div>
 </template>
 

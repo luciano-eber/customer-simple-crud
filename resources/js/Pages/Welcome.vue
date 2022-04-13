@@ -41,13 +41,11 @@ const appInfo = {
 
         <footer class="py-4 mt-5 bg-white text-center">
             <a :href="appInfo.repoLink">{{ appName }} - {{ appInfo.currentYear }}</a>
-        </footer>
+        </footer>e
     </div>
 </template>
 
-<style lang="scss" scope>
-@import "bootstrap/scss/forms";
-
+<style lang="scss">
 body {
     background-color: $light;
 }

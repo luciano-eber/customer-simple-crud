@@ -39,3 +39,7 @@ defineEmits([
         </div>                    
     </div>
 </template>
+
+<style lang="scss">
+@import "bootstrap/scss/forms";
+</style>
