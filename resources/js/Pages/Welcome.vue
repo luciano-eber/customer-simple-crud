@@ -41,7 +41,7 @@ const appInfo = {
 
         <footer class="py-4 mt-5 bg-white text-center">
             <a :href="appInfo.repoLink">{{ appName }} - {{ appInfo.currentYear }}</a>
-        </footer>e
+        </footer>
     </div>
 </template>
 
