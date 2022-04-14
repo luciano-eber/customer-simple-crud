@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
             "email" => "master@admin.com",
             "password" => Hash::make("password")
         ]);
-        \App\Models\Customer::factory(10)->create();
+        \App\Models\Customer::factory(100)->create();
     }
 }

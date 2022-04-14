@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\CustomerRegisterController;
+use App\Http\Controllers\Admin\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,6 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'appName' => env('APP_NAME')
     ]);
 });
 
@@ -33,7 +33,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Admin/Dashboard');
-    })->name('dashboard');
+
+    Route::get('/dashboard', [ CustomerController::class, 'index' ])->name('dashboard');
+
+    Route::resource('customers', CustomerController::class)->except(['create','store', 'show']);
 });
