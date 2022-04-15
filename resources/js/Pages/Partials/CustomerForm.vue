@@ -7,7 +7,8 @@ import Input from '@/Components/Input';
 const mask = { vMask }
 
 const props = defineProps({
-    form: Object
+    form: Object,
+    submitButtonMessage: String
 })
 
 const emit = defineEmits([
@@ -60,7 +61,7 @@ const clientSideValidationIsOk = computed(() => {
     <div>
         <form @submit.prevent="save">
             <div class="mt-4">
-                <h5>Informações pessoais</h5>
+                <h6>Informações pessoais</h6>
                 <div class="card">
                     <div class="card-body">
                         <div class="row row-cols-1 row-cols-xl-3 g-3">
@@ -96,7 +97,7 @@ const clientSideValidationIsOk = computed(() => {
             </div>
 
             <div class="mt-4">
-                <h5>Informações de endereço</h5>
+                <h6>Informações de endereço</h6>
                 <div class="card">
                     <div class="card-body">
                         <div class="row row-cols-1 g-3">
@@ -159,7 +160,7 @@ const clientSideValidationIsOk = computed(() => {
 
             <div class="mt-4 text-center">
                 <button type="submit" class="btn btn-success btn-lg" :disabled="!clientSideValidationIsOk || form.processing">
-                    Concluir cadastro
+                    {{ submitButtonMessage }}
                 </button>
             </div>
         </form>

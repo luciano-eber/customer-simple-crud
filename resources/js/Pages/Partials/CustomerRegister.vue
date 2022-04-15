@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { useForm } from '@inertiajs/inertia-vue3';
 import Toast from '@/Components/Toast';
 import Alert from '@/Components/Alert';
-import 'bootstrap/js/dist/alert'
 import CustomerForm from '@/Pages/Partials/CustomerForm'
 
 const form = useForm({
@@ -57,7 +56,13 @@ const fetchCep = (data) => {
                 Todos os campos <strong>são obrigatórios</strong> para concluir o cadastro
             </Alert>
             
-            <CustomerForm :form="form" @save="submit" @fetchCep="fetchCep" @clearCep="clearCep"/>
+            <CustomerForm 
+                :form="form" 
+                @save="submit" 
+                @fetchCep="fetchCep" 
+                @clearCep="clearCep" 
+                submitButtonMessage="Concluir cadastro"
+            />
 
         </div>
         <Toast ref="toastSuccess" variant="success">

@@ -38,4 +38,13 @@ abstract class InertiaCrudController extends Controller
         $data = $this->model->FindOrFail($id);
         return Inertia::render($view, compact('data'));
     }
+
+    protected function __update(array $request, int $id): RedirectResponse
+    {
+        $data = $this->model->findOrFail($id);
+
+        $data->update($request);
+
+        return redirect()->back();
+    }
 }

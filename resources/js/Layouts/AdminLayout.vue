@@ -8,16 +8,6 @@ defineProps({
     title: String,
 });
 
-const showingNavigationDropdown = ref(false);
-
-const switchToTeam = (team) => {
-    Inertia.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
-    });
-};
-
 const logout = () => {
     Inertia.post(route('logout'));
 };
@@ -30,8 +20,13 @@ const user = computed(() => usePage().props.value.user)
         <header class="bg-white py-3">
             <div class="container">
                 <div class="w-100 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-between">
-                    <div>
+                    <div class="d-flex flex-column flex-md-row">
                         Olá {{ user.name }}
+
+                        <Link :href="route('dashboard')" class="ms-md-3">
+                            Dashboard
+                        </Link>
+
                     </div>
                     <div>
                         <a href="" @click.prevent="logout">
@@ -42,11 +37,12 @@ const user = computed(() => usePage().props.value.user)
             </div>
         </header>
         <!-- Page Content -->
+        
         <main class="mt-5">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h3>{{ title }}</h3>
+                        <h4>{{ title }}</h4>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -56,7 +52,6 @@ const user = computed(() => usePage().props.value.user)
                 </div>
             </div>
         </main>
-
         <footer class="mt-5 py-5 text-center">
             {{ $page.props.appname }}
         </footer>

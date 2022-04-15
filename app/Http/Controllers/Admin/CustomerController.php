@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\InertiaCrudController;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Http\Requests\Customer\Update as CustomerUpdate;
 
 class CustomerController extends InertiaCrudController
 {
@@ -32,5 +33,10 @@ class CustomerController extends InertiaCrudController
     public function edit(int $id)
     {
         return parent::_edit('Admin/Customer/Edit', $id);
+    }
+
+    public function update(CustomerUpdate $request, int $id)
+    {
+        return parent::__update($request->all(), $id);
     }
 }

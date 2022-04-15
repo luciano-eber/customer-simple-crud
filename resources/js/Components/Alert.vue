@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import 'bootstrap/js/dist/alert'
 
 const props = defineProps({
     variant: String,
