@@ -1,11 +1,11 @@
 <script setup>    
-import { ref, computed } from 'vue';
-import 'bootstrap/js/dist/toast';
+import { ref, computed, onMounted } from 'vue';
+const BootstrapToast = require('bootstrap/js/dist/toast') // dont try es6 import
 
 const props = defineProps({
-    show: {
-        type: Boolean,
-        default: false,
+    delay: {
+        type: Number,
+        default: 4000,
     },
     variant: {
         type: String,
@@ -13,32 +13,53 @@ const props = defineProps({
     }
 });
 
-const variantClass = computed(() => {
-    return `bg-${props.variant} text-white`
+defineExpose({
+    show,
+    hide
 })
 
-const showClass = computed(() => {
-    return props.show ? 'fade show' : ''
+const variantClass = computed(() => {
+    return `bg-${props.variant} text-white`
+}) 
+
+const toastEl = ref()
+
+const btsToast = ref()
+
+onMounted(() => {
+    btsToast.value = new BootstrapToast(toastEl.value, {
+        delay: props.delay
+    })
 })
+
+function show () {
+    btsToast.value.show()
+}
+
+function hide() {
+    btsToast.value.hide()
+}
 
 </script>
 
 <template>
-    <div 
-        class="toast align-items-center position-fixed bottom-0 end-0" 
-        role="alert" 
-        aria-live="assertive" 
-        aria-atomic="true"
-        :class="[ variantClass, showClass ]"
-        data-bs-delay="10000"
-    >
-        <div class="d-flex">
-            <div class="toast-body">
-                <slot />
+    <teleport to="body">
+        <div 
+            class="toast align-items-center position-fixed top-0 w-100" 
+            role="alert" 
+            aria-live="assertive" 
+            aria-atomic="true"
+            :class="[ variantClass ]"
+            ref="toastEl"
+        >
+            <div class="d-flex">
+                <div class="toast-body text-center w-100">
+                    <slot />
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-    </div>
+    </teleport>
 </template>
 
 <style lang="scss">
