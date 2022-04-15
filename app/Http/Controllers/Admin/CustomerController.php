@@ -28,4 +28,9 @@ class CustomerController extends InertiaCrudController
     {
         return parent::_destroy($id);
     }
+
+    public function edit(int $id)
+    {
+        return parent::_edit('Admin/Customer/Edit', $id);
+    }
 }

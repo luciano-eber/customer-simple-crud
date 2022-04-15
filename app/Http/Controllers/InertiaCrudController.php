@@ -32,4 +32,10 @@ abstract class InertiaCrudController extends Controller
         $this->model->findOrFail($id)->delete();
         return redirect()->back();
     }
+
+    protected function _edit(string $view, int $id): InertiaResponse
+    {
+        $data = $this->model->FindOrFail($id);
+        return Inertia::render($view, compact('data'));
+    }
 }
