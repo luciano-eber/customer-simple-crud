@@ -8,7 +8,6 @@ defineProps({
     canRegister: Boolean,
     laravelVersion: String,
     phpVersion: String,
-    appName: String,
 });
 
 const appInfo = {
@@ -24,7 +23,7 @@ const appInfo = {
             <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
                     <AppLogo style="width: 2rem;"/>
-                    <h1 class="logo-name d-none d-md-flex">{{ appName }}</h1>
+                    <h1 class="logo-name d-none d-md-flex">{{ $page.props.appname }}</h1>
                 </div>
                 <div class="d-flex flex-column flex-md-row text-center text-md-start mt-3 mt-md-0">
                     <Link :href="route('dashboard')" class="me-3">
@@ -40,7 +39,7 @@ const appInfo = {
         </main>
 
         <footer class="py-4 mt-5 bg-white text-center">
-            <a :href="appInfo.repoLink">{{ appName }} - {{ appInfo.currentYear }}</a>
+            <a :href="appInfo.repoLink">{{ $page.props.appname }} - {{ appInfo.currentYear }}</a>
         </footer>
     </div>
 </template>
