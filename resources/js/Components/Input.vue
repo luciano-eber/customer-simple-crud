@@ -1,5 +1,7 @@
 <script setup>
 
+import { computed } from 'vue'
+
 const props = defineProps({
     label: String,
     placeholder: String,
@@ -19,6 +21,8 @@ defineEmits([
     'update:modelValue'
 ])
 
+const isPasswordType = computed(() => props.type == 'password')
+
 </script>
 
 <template>
@@ -32,6 +36,7 @@ defineEmits([
             :value="modelValue" 
             @input="$emit('update:modelValue', $event.target.value)"
             :disabled="disabled"
+            :autocomplete="isPasswordType"
         />
 
         <div v-show="invalidFeedback" class="invalid-feedback">
