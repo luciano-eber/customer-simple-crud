@@ -1,64 +1,63 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<h2 align="center">
+    CRUD de clientes com Laravel 9
+</h2>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Sobre
+Esta aplicação gerencia um formulário público para novos **clientes cadastrarem-se** e conta com uma área de administrador autenticada para gerenciar os **cadastros recebidos**.
 
-## About Laravel
+Os recursos em foco aqui são:
+- Integração com a api do [viacep](https://viacep.com.br/) para facilitar experiência de usuário nos formulários relacionados a endereço
+- Experiência de **usuário administrador pré existente** para gerenciar os **usuários clientes** 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Acesso para administrar o CRUD
+A área de administração pode ser acessada através do caminho `/dashboard`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+#### Login para demonstração
+email: `master@admin.com`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+password: `password`
 
-## Learning Laravel
+## Requisitos do sistema
+- PHP 8 ou superior
+- MySQL
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Frameworks
+- Laravel 9
+- InertiaJS
+- Vue3
+- Bootstrap 5
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Instalação e configuração
 
-## Laravel Sponsors
+1. Instale as dependências do composer
+`composer install`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+2. Crie o arquivo `.env` na raíz seguindo o `.env.example`
+3. Informe as variáveis de conexão com o banco (env file)
+4. Execute o comando `php artisan key:generate` para gerar a chave (env file)
+5. Execute o comando `php artisan migrate:fresh --seed` para povoar o banco
 
-### Premium Partners
+## Execução Local
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Após instalar e configurar, basta rodar o `php artisan serve` para subir o servidor local do php
 
-## Contributing
+## Front-end
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+O front-end deste projeto é configurado sob o laravel-mix que utiliza o webpack.
 
-## Code of Conduct
+Instale as dependências com o comando: `yarn install`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Para compilar em desenvolvimento: `yarn dev`
 
-## Security Vulnerabilities
+Para compilar em produção: `yarn production`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Dev server: `yarn watch` (com browserSync)
 
-## License
+#### Sobre o browserSync
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+O proxy padrão para atualizações automáticas é para `http://127.0.0.1:8000/`, altere no `webpack.mix.js` se necessário.
+
+**Obs importante**: Mesmo em ambiente de desenvolvimento, lembre-se sempre de executar a aplicação no endereço principal (ex: `http://127.0.0.1:8000/`) e não no servidor de proxy gerado pelo browser sync, para evitar os conflitos de cors com o **InertiaJS**... A atualização automática é providenciada no endereço principal por meio de script.
+
+## Laravel
+https://laravel.com/docs/
